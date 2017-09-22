@@ -1,0 +1,20 @@
+##' 
+##' ## Custom distribution: supply the hazard function only
+##' hexp2 <- function(x, rate=1){ rate } # exponential distribution
+##' hexp2 <- Vectorize(hexp2)
+##' custom.exp2 <- list(name="exp2", pars=c("rate"), location="rate",
+##'                     transforms=c(log), inv.transforms=c(exp),
+##'                     inits=function(t)1/mean(t))
+##' flexsurvreg(Surv(futime, fustat) ~ 1, data = ovarian, dist=custom.exp2)
+##' flexsurvreg(Surv(futime, fustat) ~ 1, data = ovarian, dist="exp")
+##' ## should give same answer
+library(flexsurv)
+
+hexp2 <- function(x, rate=1){ rate } # exponential distribution
+hexp2 <- Vectorize(hexp2)
+custom.exp2 <- list(name="exp2", pars=c("rate"), location="rate",
+                     transforms=c(log), inv.transforms=c(exp),
+                     inits=function(t)1/mean(t))
+flexsurvreg(Surv(futime, fustat) ~ 1, data = ovarian, dist=custom.exp2)
+flexsurvreg(Surv(futime, fustat) ~ 1, data = ovarian, dist="exp")
+##' ## should give same answer
